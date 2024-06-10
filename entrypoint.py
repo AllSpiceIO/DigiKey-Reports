@@ -1,5 +1,8 @@
 from jinja2 import Environment, FileSystemLoader
+from argparse import ArgumentParser
 import requests
+import zipfile
+import shutil
 import json
 import sys
 import csv
@@ -144,8 +147,13 @@ def extract_data_from_digikey_search_response(keyword_search_json):
 
 ################################################################################
 if __name__ == "__main__":
+    # Initialize argument parser
+    parser = ArgumentParser()
+    parser.add_argument("bom_file", help="Path to the BOM file")
+    args = parser.parse_args()
+    
     # Read the BOM file into list
-    with open(sys.argv[1], newline='') as bomfile:
+    with open(args.bom_file, newline='') as bomfile:
         # Comma delimited file with " as quote character to be included
         bomreader = csv.reader(bomfile, delimiter=',', quotechar='"')
         # Save as a list
@@ -165,7 +173,7 @@ if __name__ == "__main__":
     for line_item in bom_line_items:
         print("- Fetching info for " + line_item[0])
         # Search for parts in DigiKey by Manufacturer Part Number as keyword
-        (response_code, keyword_search_json) = query_digikey_v4_API_keyword_search(DIGIKEY_API_V4_KEYWORD_SEARCH_ENDPOINT, clid_raw, access_token, "US", "en", "USD", "0", line_item[0])
+        (response_code, keyword_search_json) = query_digikey_v4_API_keyword_search(DIGIKEY_API_V4_KEYWORD_SEARCH_ENDPOINT, digikey_client_id, access_token, "US", "en", "USD", "0", line_item[0])
         # Process a successful response
         if(response_code == 200):
             # Extract the part data from the keyword search response
@@ -183,8 +191,16 @@ if __name__ == "__main__":
     template = template_env.get_template("index.html")
     # Populuate the context data
     context = {
-        "bom"                   : bom_items_digikey_data
+        "bom"   : bom_items_digikey_data
     }
+    # Create report output folder if it doesn't exist, and unzip the JS/CSS assets
+    try:
+        os.makedirs("component_report")
+    except FileExistsError:
+        pass
+        #with zipfile.ZileFile("report_template/assets.zip", 'r') as zipper:
+        #    zipper.extractall("component_report")
+    shutil.unpack_archive("report_template/assets.zip", "component_report")
     # Write HTML output file
     with open("component_report/index.html", mode="w", encoding="utf-8") as report_file:
         print("- Outputting report")
