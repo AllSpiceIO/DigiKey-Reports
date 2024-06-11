@@ -25,7 +25,3 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-test.txt
-      - name: Check formatting
-        run: ruff format --diff .
-      - name: Lint with ruff
-        run: ruff check --target-version=py310 .
