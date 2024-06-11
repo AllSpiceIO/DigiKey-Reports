@@ -1,5 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 from argparse import ArgumentParser
+from contextlib import ExitStack
 import requests
 import zipfile
 import shutil
@@ -193,15 +194,15 @@ if __name__ == "__main__":
     context = {
         "bom"   : bom_items_digikey_data
     }
-    # Create report output folder if it doesn't exist, and unzip the JS/CSS assets
+    # Create report output folder if it doesn't exist
     try:
         os.makedirs("component_report")
     except FileExistsError:
         pass
-        #with zipfile.ZileFile("report_template/assets.zip", 'r') as zipper:
-        #    zipper.extractall("component_report")
+    # Unzip the JS/CSS assets
     shutil.unpack_archive("report_template/assets.zip", "component_report")
     # Write HTML output file
-    with open("component_report/index.html", mode="w", encoding="utf-8") as report_file:
+    with ExitStack() as stack:
+        report_file = stack.enter_context(open("component_report/index.html", mode="w", encoding="utf-8"))
         print("- Outputting report")
         report_file.write(template.render(context))
