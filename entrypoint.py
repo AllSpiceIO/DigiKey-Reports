@@ -52,7 +52,7 @@ def get_access_token(url, client_id, client_secret):
     access_token = response.json()["access_token"] if response.status_code == 200 else None
     # Return response status code and access token
     return (response.status_code, access_token)
-    
+
 ################################################################################
 def query_digikey_v4_API_keyword_search(url, client_id, access_token,
                                         locale_site, locale_language,
@@ -127,10 +127,10 @@ def extract_data_from_digikey_search_response(keyword_search_json):
             if "ParameterText" in parameter.keys():
                 # Get the package / case
                 if parameter["ParameterText"] == "Package / Case":
-                    part_data.package_case = parameter["ValueText"]  
+                    part_data.package_case = parameter["ValueText"]
                 # Get the supplier device package
                 if parameter["ParameterText"] == "Supplier Device Package":
-                    part_data.supplier_device_package = parameter["ValueText"]                        
+                    part_data.supplier_device_package = parameter["ValueText"]
                 # Get the operating temperature range
                 if parameter["ParameterText"] == "Operating Temperature":
                     part_data.operating_temp = parameter["ValueText"]
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("bom_file", help="Path to the BOM file")
     args = parser.parse_args()
-    
+
     # Read the BOM file into list
     with open(args.bom_file, newline='') as bomfile:
         # Comma delimited file with " as quote character to be included
@@ -169,8 +169,8 @@ if __name__ == "__main__":
 
     # Initialize list of BOM item part data
     bom_items_digikey_data = []
-    
-    # Fetch information for all parts in the BOM    
+
+    # Fetch information for all parts in the BOM
     for line_item in bom_line_items:
         print("- Fetching info for " + line_item[0])
         # Search for parts in DigiKey by Manufacturer Part Number as keyword
