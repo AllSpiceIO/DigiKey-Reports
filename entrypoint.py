@@ -211,4 +211,5 @@ if __name__ == "__main__":
         report_file.write(template.render(context))
         # Zip the component report as a git workspace artifact
         print(args.output_path)
+        print(os.listdir("/"))
         shutil.make_archive(args.output_path, format='zip', root_dir="/component_report", base_dir="/component_report")
