@@ -212,4 +212,10 @@ if __name__ == "__main__":
         # Zip the component report as a git workspace artifact
         print(args.output_path)
         print(os.listdir("/"))
+        import os
+        for root, dirs, files in os.walk("/workspace", topdown=False):
+           for name in files:
+              print(os.path.join(root, name))
+           for name in dirs:
+              print(os.path.join(root, name))
         shutil.make_archive(args.output_path, format='zip', root_dir="/component_report", base_dir="/component_report")
