@@ -221,3 +221,13 @@ if __name__ == "__main__":
         shutil.make_archive("/", format='zip', root_dir="/component_report", base_dir="/component_report")
         print(os.listdir("/"))
         print(os.listdir("/component_report"))
+    with zipfile.ZipFile(args.output_path + "/component_report.zip", 'w', zipfile.ZIP_DEFLATED) as zipper:
+        for root, dirs, files in os.walk("/component_report"):
+            for file in files:
+                zipper.write(os.path.join(root, file))
+    print(os.listdir("/component_report"))
+    for root, dirs, files in os.walk("/workspace", topdown=False):
+       for name in files:
+          print(os.path.join(root, name))
+       for name in dirs:
+          print(os.path.join(root, name))
