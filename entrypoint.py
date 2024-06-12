@@ -209,6 +209,6 @@ if __name__ == "__main__":
         report_file = stack.enter_context(open("/component_report/index.html", mode="w", encoding="utf-8"))
         print("- Outputting report")
         report_file.write(template.render(context))
-        # Zip the component report as a git workspace artifcat
+        # Zip the component report as a git workspace artifact
         print(args.output_path)
-        shutil.make_archive(args.output_path + "/component_report.zip", format='zip', root_dir="/component_report", base_dir="/component_report")
+        shutil.make_archive(args.output_path, format='zip', root_dir="/component_report", base_dir="/component_report")
