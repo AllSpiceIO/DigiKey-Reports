@@ -153,6 +153,7 @@ if __name__ == "__main__":
     # Initialize argument parser
     parser = ArgumentParser()
     parser.add_argument("bom_file", help="Path to the BOM file")
+    parser.add_argument("--output_path", help="Path to the directory to output report to")
     args = parser.parse_args()
 
     # Read the BOM file into list
