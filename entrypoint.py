@@ -210,4 +210,4 @@ if __name__ == "__main__":
         print("- Outputting report")
         report_file.write(template.render(context))
     # Zip the component report as a git workspace artifcat
-    shutil.make_archive("component_report.zip", format='zip', root_dir="/component_report", base_dir=args.output_path)
+    shutil.make_archive(base_name=args.output_path + "/component_report.zip", format='zip', root_dir="/component_report", base_dir="/component_report")
