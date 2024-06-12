@@ -196,7 +196,7 @@ if __name__ == "__main__":
             print(os.path.join(root, name))
 
     # Load Jinja with output HTML template
-    template_env = Environment(loader=FileSystemLoader("./report_template/"))
+    template_env = Environment(loader=FileSystemLoader("/report_template/"))
     template = template_env.get_template("index.html")
     # Populuate the context data
     context = {
@@ -204,13 +204,13 @@ if __name__ == "__main__":
     }
     # Create report output folder if it doesn't exist
     try:
-        os.makedirs("./component_report")
+        os.makedirs("/component_report")
     except FileExistsError:
         pass
     # Unzip the JS/CSS assets
-    shutil.unpack_archive("./report_template/assets.zip", "./component_report")
+    shutil.unpack_archive("/report_template/assets.zip", "/component_report")
     # Write HTML output file
     with ExitStack() as stack:
-        report_file = stack.enter_context(open("component_report/index.html", mode="w", encoding="utf-8"))
+        report_file = stack.enter_context(open("/component_report/index.html", mode="w", encoding="utf-8"))
         print("- Outputting report")
         report_file.write(template.render(context))
