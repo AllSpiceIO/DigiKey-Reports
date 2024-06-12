@@ -189,12 +189,6 @@ if __name__ == "__main__":
         else:
             print(response_code, keyword_search_json)
 
-    for root, dirs, files in os.walk(".", topdown=False):
-        for name in files:
-            print(os.path.join(root, name))
-        for name in dirs:
-            print(os.path.join(root, name))
-
     # Load Jinja with output HTML template
     template_env = Environment(loader=FileSystemLoader("/report_template/"))
     template = template_env.get_template("index.html")
@@ -214,3 +208,5 @@ if __name__ == "__main__":
         report_file = stack.enter_context(open("/component_report/index.html", mode="w", encoding="utf-8"))
         print("- Outputting report")
         report_file.write(template.render(context))
+    # Zip the component report as a git workspace artifcat
+    shutil.make_archive(args.output_path, 'zip', "/component_report")
