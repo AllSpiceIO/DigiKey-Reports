@@ -209,22 +209,12 @@ if __name__ == "__main__":
         report_file = stack.enter_context(open("/component_report/index.html", mode="w", encoding="utf-8"))
         print("- Outputting report")
         report_file.write(template.render(context))
-        # Zip the component report as a git workspace artifact
-        print(args.output_path)
-        print(os.listdir("/"))
-        shutil.make_archive(args.output_path, format='zip', root_dir="/component_report", base_dir="/component_report")
-        for root, dirs, files in os.walk("/workspace", topdown=False):
-           for name in files:
-              print(os.path.join(root, name))
-           for name in dirs:
-              print(os.path.join(root, name))
-        shutil.make_archive("/", format='zip', root_dir="/component_report", base_dir="/component_report")
-        print(os.listdir("/"))
-        print(os.listdir("/component_report"))
+    # Zip the component report as a git workspace artifact
     with zipfile.ZipFile(args.output_path + "/component_report.zip", 'w', zipfile.ZIP_DEFLATED) as zipper:
         for root, dirs, files in os.walk("/component_report"):
             for file in files:
                 zipper.write(os.path.join(root, file))
+    print(os.listdir("/"))
     print(os.listdir("/component_report"))
     for root, dirs, files in os.walk("/workspace", topdown=False):
        for name in files:
