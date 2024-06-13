@@ -183,7 +183,7 @@ if __name__ == "__main__":
             # Extract the part data from the keyword search response
             part_data = extract_data_from_digikey_search_response(keyword_search_json)
             # Add the associated reference designators
-            part_data.associated_refdes = line_item[2]
+            part_data.associated_refdes = line_item[3]
             # Add the extracted data to the list of BOM items part data
             bom_items_digikey_data.append(part_data)
         # Print out the details of an unsuccessful response
